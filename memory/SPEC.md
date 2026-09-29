@@ -11,7 +11,7 @@ VINKRI is a local, immersive virtual design studio for browsing a supplied 16-ob
 ## Key flows
 1. Entry overlay materializes the VINKRI wordmark and building, then Enter Studio transitions into the facade.
 2. Floor buttons open a room with atmosphere-specific motion, a conveyor strip, and product cards.
-3. Product cards open a shared-element-style detail panel with tilt interaction and a live dark-room brightness simulator.
+3. Product cards open a detail panel with fully static supplied product imagery and a live dark-room brightness simulator.
 4. Add to trolley, quantity controls, coupon `VINKRI10`, checkout, and order confirmation work entirely in the browser.
 5. Search, wishlist, dark/light theme, mobile menu, reduced-motion CSS, and mobile touch fallbacks are included.
 
@@ -20,3 +20,7 @@ No authentication or gated roles. This is a public demo studio.
 
 ## Integrations
 No external integrations. Product data and artwork come from the supplied ZIP. Payment and order persistence are MOCKED as a local demo by design.
+
+## Visual constraints
+- The cinematic entry displays only the animated building, VINKRI wordmark, and ENTER STUDIO control.
+- Product artwork is always rendered from the supplied ZIP and never animated, tilted, zoomed, swept, or transitioned.

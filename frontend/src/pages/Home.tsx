@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   ArrowLeft,
@@ -132,11 +132,7 @@ function EntrySequence({ onEnter, reducedMotion }: { onEnter: () => void; reduce
         </div>
       </div>
       <div className="entry-copy">
-        <div className="eyebrow" data-testid="entry-eyebrow">VIRTUAL DESIGN STUDIO / 2024—25</div>
         <div className="entry-wordmark" data-testid="entry-wordmark">VINKRI</div>
-        <div className="entry-submark" data-testid="entry-submark">VIRTUAL STUDIO</div>
-        <div className="entry-rule" />
-        <p data-testid="entry-description">A living gallery for objects, memory, light, and form.</p>
         <Button
           type="button"
           onClick={handleEnter}
@@ -148,11 +144,6 @@ function EntrySequence({ onEnter, reducedMotion }: { onEnter: () => void; reduce
           <span>{entering ? "ENTERING STUDIO" : "ENTER STUDIO"}</span>
           <ArrowUpRight size={16} />
         </Button>
-      </div>
-      <div className="entry-footer" data-testid="entry-footer">
-        <span>EST. / VINKRI OBJECTS</span>
-        <span>SCROLL TO EXPLORE</span>
-        <span>01 / 04</span>
       </div>
     </section>
   );
@@ -282,15 +273,10 @@ function Marquee({ products, onProduct }: { products: Product[]; onProduct: (pro
 }
 
 function ProductCard({ product, onOpen, wished, onWish }: { product: Product; onOpen: (product: Product) => void; wished: boolean; onWish: () => void }) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const handlePointerMove = (event: ReactPointerEvent<HTMLElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    setTilt({ x: ((event.clientX - rect.left) / rect.width - 0.5) * 5, y: ((event.clientY - rect.top) / rect.height - 0.5) * -5 });
-  };
   return (
-    <article className={`product-card card-accent-${product.accent}`} onPointerMove={handlePointerMove} onPointerLeave={() => setTilt({ x: 0, y: 0 })} style={{ transform: `perspective(900px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)` }} data-testid={`product-card-${product.id}`}>
+    <article className={`product-card card-accent-${product.accent}`} data-testid={`product-card-${product.id}`}>
       <button type="button" className="product-card-hit" onClick={() => onOpen(product)} data-testid={`open-product-${product.id}`} data-cursor="VIEW OBJECT" aria-label={`View ${product.name}`}>
-        <div className="product-art"><img src={product.image} alt={product.name} loading="lazy" /><span className="art-reflection" /></div>
+        <div className="product-art"><img src={product.image} alt={product.name} loading="lazy" /></div>
         <div className="product-card-topline"><span>{product.category}</span><span>V / {product.floor.toString().padStart(2, "0")}</span></div>
         <div className="product-card-copy"><h3 data-testid={`product-name-${product.id}`}>{product.name}</h3><p>{product.description}</p><span className="product-view-link">VIEW OBJECT <ArrowUpRight size={13} /></span></div>
       </button>
