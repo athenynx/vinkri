@@ -285,7 +285,7 @@ function ProductCard({ product, onOpen, wished, onWish }: { product: Product; on
   );
 }
 
-function RoomView({ floor, products, wishlist, onBack, onOpen, onWish, onSimulator }: { floor: FloorId; products: Product[]; wishlist: string[]; onBack: () => void; onOpen: (product: Product) => void; onWish: (id: string) => void; onSimulator: (product: Product) => void }) {
+function RoomView({ floor, products, wishlist, onBack, onOpen, onWish, onSimulator }: { floor: FloorId; products: Product[]; wishlist: string[]; onBack: () => void; onOpen: (product: Product) => void; onWish: (id: string) => void; onSimulator: () => void }) {
   const meta = FLOOR_META[floor];
   const roomProducts = products.filter((product) => product.floor === floor);
   return (
@@ -298,7 +298,7 @@ function RoomView({ floor, products, wishlist, onBack, onOpen, onWish, onSimulat
         <div className="room-portal" aria-hidden="true"><div className="portal-ring" /><div className="portal-core" /><span>ROOM<br />{meta.code}</span></div>
       </section>
       <section className="room-products-section" data-testid="room-products-section">
-        <div className="room-products-heading"><div><div className="eyebrow">CURATED OBJECTS / {meta.name}</div><h2>Objects in residence.</h2></div><button type="button" onClick={() => onSimulator(roomProducts[0])} className="simulator-link" data-testid="open-room-simulator-button" data-cursor="ADJUST"><SlidersHorizontal size={15} /> DARK ROOM SIMULATOR <ArrowUpRight size={14} /></button></div>
+        <div className="room-products-heading"><div><div className="eyebrow">CURATED OBJECTS / {meta.name}</div><h2>Objects in residence.</h2></div>{floor === 3 && <button type="button" onClick={onSimulator} className="simulator-link" data-testid="open-room-simulator-button" data-cursor="ADJUST"><SlidersHorizontal size={15} /> ROOM SIMULATOR <ArrowUpRight size={14} /></button>}</div>
         <div className="product-grid">{roomProducts.map((product) => <ProductCard key={product.id} product={product} onOpen={onOpen} wished={wishlist.includes(product.id)} onWish={() => onWish(product.id)} />)}</div>
       </section>
     </main>
@@ -325,14 +325,31 @@ function RoomSimulator({ product, darkness, lumens, kelvin, onDarkness, onLumens
   );
 }
 
-function ProductModal({ product, onClose, onAdd, onSimulator, isWished, onWish, darkness, lumens, kelvin, onDarkness, onLumens, onKelvin }: { product: Product; onClose: () => void; onAdd: () => void; onSimulator: () => void; isWished: boolean; onWish: () => void; darkness: number; lumens: number; kelvin: number; onDarkness: (value: number) => void; onLumens: (value: number) => void; onKelvin: (value: number) => void }) {
+function RoomSimulatorModal({ products, product, onSelect, onClose, darkness, lumens, kelvin, onDarkness, onLumens, onKelvin }: { products: Product[]; product: Product; onSelect: (product: Product) => void; onClose: () => void; darkness: number; lumens: number; kelvin: number; onDarkness: (value: number) => void; onLumens: (value: number) => void; onKelvin: (value: number) => void }) {
+  return (
+    <div className="modal-backdrop simulator-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }} data-testid="room-simulator-backdrop">
+      <section className="dedicated-simulator" role="dialog" aria-modal="true" aria-labelledby="room-simulator-title" data-testid="room-simulator-modal">
+        <div className="dedicated-simulator-header">
+          <div><div className="eyebrow"><Sparkles size={13} /> LIGHT LAB / ROOM SIMULATOR</div><h2 id="room-simulator-title" data-testid="room-simulator-title">Test the room after dark.</h2></div>
+          <button type="button" onClick={onClose} className="modal-close" data-testid="close-room-simulator-button" aria-label="Close room simulator"><X size={18} /></button>
+        </div>
+        <div className="simulator-object-selector" data-testid="simulator-object-selector">
+          <span>SELECT LIGHT OBJECT</span>
+          <div>{products.map((item) => <button type="button" key={item.id} onClick={() => onSelect(item)} className={item.id === product.id ? "is-selected" : ""} data-testid={`simulator-select-${item.id}`}><span>{item.symbol}</span>{item.name}</button>)}</div>
+        </div>
+        <RoomSimulator product={product} darkness={darkness} lumens={lumens} kelvin={kelvin} onDarkness={onDarkness} onLumens={onLumens} onKelvin={onKelvin} />
+      </section>
+    </div>
+  );
+}
+
+function ProductModal({ product, onClose, onAdd, isWished, onWish }: { product: Product; onClose: () => void; onAdd: () => void; isWished: boolean; onWish: () => void }) {
   return (
     <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }} data-testid="product-modal-backdrop">
       <section className="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-modal-title" data-testid="product-detail-modal">
         <button type="button" onClick={onClose} className="modal-close" data-testid="close-product-modal-button" aria-label="Close product details"><X size={18} /></button>
         <div className="modal-visual"><img src={product.image} alt={product.name} /><span className="modal-visual-grid" /><div className="modal-visual-tag">VINKRI / OBJECT {product.floor.toString().padStart(2, "0")}</div></div>
-        <div className="modal-copy"><div className="eyebrow">{product.category} / LIMITED OBJECT</div><h2 id="product-modal-title" data-testid="product-modal-title">{product.name}</h2><p data-testid="product-modal-description">{product.description}</p><div className="modal-specs"><span><small>FROM</small><b>{money(product.price)}</b></span><span><small>OUTPUT</small><b>{product.lumens} lm</b></span><span><small>INDEX</small><b>V / {product.id.slice(0, 4).toUpperCase()}</b></span></div><div className="modal-actions"><Button type="button" onClick={onAdd} className="primary-action" data-testid="add-to-trolley-button" data-cursor="ADD TO TROLLEY"><ShoppingBag size={16} /> ADD TO TROLLEY</Button><button type="button" onClick={onWish} className={`modal-wish ${isWished ? "is-wished" : ""}`} data-testid="product-modal-wishlist-button" data-cursor="SAVE"><Heart size={16} fill={isWished ? "currentColor" : "none"} /> {isWished ? "SAVED" : "SAVE"}</button></div><button type="button" onClick={onSimulator} className="modal-simulator-trigger" data-testid="product-modal-simulator-button"><Sparkles size={14} /> OPEN DARK ROOM STUDY <ArrowUpRight size={14} /></button></div>
-        <RoomSimulator product={product} darkness={darkness} lumens={lumens} kelvin={kelvin} onDarkness={onDarkness} onLumens={onLumens} onKelvin={onKelvin} />
+        <div className="modal-copy"><div className="eyebrow">{product.category} / LIMITED OBJECT</div><h2 id="product-modal-title" data-testid="product-modal-title">{product.name}</h2><p data-testid="product-modal-description">{product.description}</p><div className="modal-specs"><span><small>FROM</small><b>{money(product.price)}</b></span><span><small>OUTPUT</small><b>{product.lumens} lm</b></span><span><small>INDEX</small><b>V / {product.id.slice(0, 4).toUpperCase()}</b></span></div><div className="modal-actions"><Button type="button" onClick={onAdd} className="primary-action" data-testid="add-to-trolley-button" data-cursor="ADD TO TROLLEY"><ShoppingBag size={16} /> ADD TO TROLLEY</Button><button type="button" onClick={onWish} className={`modal-wish ${isWished ? "is-wished" : ""}`} data-testid="product-modal-wishlist-button" data-cursor="SAVE"><Heart size={16} fill={isWished ? "currentColor" : "none"} /> {isWished ? "SAVED" : "SAVE"}</button></div></div>
       </section>
     </div>
   );
@@ -365,6 +382,8 @@ export default function Home() {
   const [view, setView] = useState<View>("facade");
   const [activeFloor, setActiveFloor] = useState<FloorId>(3);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [simulatorOpen, setSimulatorOpen] = useState(false);
+  const [simulatorProduct, setSimulatorProduct] = useState<Product>(PRODUCTS.find((product) => product.id === "orbit-glow") ?? PRODUCTS[0]);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
@@ -385,7 +404,7 @@ export default function Home() {
   useEffect(() => {
     const keydown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); setSearchOpen(true); }
-      if (event.key === "Escape") { setSelectedProduct(null); setSearchOpen(false); setCartOpen(false); }
+      if (event.key === "Escape") { setSelectedProduct(null); setSimulatorOpen(false); setSearchOpen(false); setCartOpen(false); }
     };
     window.addEventListener("keydown", keydown);
     return () => window.removeEventListener("keydown", keydown);
@@ -395,7 +414,8 @@ export default function Home() {
   const openFloor = (floor: FloorId) => { setActiveFloor(floor); setView("room"); setMenuOpen(false); window.setTimeout(() => document.getElementById("room-stage")?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" }), 50); };
   const goHome = () => { setView("facade"); setOrderComplete(false); setMenuOpen(false); window.setTimeout(() => window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" }), 20); };
   const openProduct = (product: Product) => { setSelectedProduct(product); setLumens(product.lumens); setKelvin(product.kelvin); setSearchOpen(false); };
-  const openSimulator = (product: Product) => { setSelectedProduct(product); setLumens(product.lumens); setKelvin(product.kelvin); };
+  const selectSimulatorProduct = (product: Product) => { setSimulatorProduct(product); setLumens(product.lumens); setKelvin(product.kelvin); };
+  const openSimulator = () => { const firstLight = products.find((product) => product.floor === 3) ?? products[0]; selectSimulatorProduct(firstLight); setSimulatorOpen(true); };
   const addToCart = (product: Product) => { setCart((current) => { const existing = current.find((line) => line.product.id === product.id); return existing ? current.map((line) => line.product.id === product.id ? { ...line, quantity: line.quantity + 1 } : line) : [...current, { product, quantity: 1 }]; }); setSelectedProduct(null); setCartOpen(true); };
   const changeQuantity = (id: string, delta: number) => setCart((current) => current.map((line) => line.product.id === id ? { ...line, quantity: Math.max(0, line.quantity + delta) } : line).filter((line) => line.quantity > 0));
   const toggleWish = (id: string) => setWishlist((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
@@ -405,7 +425,8 @@ export default function Home() {
       <StudioCursor />
       {!entered && <EntrySequence onEnter={enterStudio} reducedMotion={reducedMotion} />}
       {entered && <div className="studio-shell"><ParticleField count={18} /><Header theme={theme} onTheme={() => setTheme((current) => current === "dark" ? "light" : "dark")} onSearch={() => setSearchOpen(true)} onCart={() => setCartOpen(true)} cartCount={cartCount} onMenu={() => setMenuOpen((current) => !current)} onHome={goHome} />{menuOpen && <div className="mobile-menu-panel" data-testid="mobile-menu-panel"><button type="button" onClick={goHome} data-testid="mobile-menu-studio-button">STUDIO</button><button type="button" onClick={() => openFloor(3)} data-testid="mobile-menu-light-lab-button">LIGHT LAB</button><button type="button" onClick={() => openFloor(0)} data-testid="mobile-menu-object-library-button">OBJECT LIBRARY</button><button type="button" onClick={() => setSearchOpen(true)} data-testid="mobile-menu-search-button">SEARCH ARCHIVE</button></div>}{view === "facade" && <><Facade onFloor={openFloor} /><Marquee products={products} onProduct={openProduct} /><section className="footer-studio-note" data-testid="footer-studio-note"><div className="eyebrow">VINKRI / MAKE SPACE FOR FEELING</div><h2>Objects with a<br /><em>point of view.</em></h2><span>© 2025 VINKRI OBJECTS / ALL RIGHTS RESERVED</span></section></>}{view === "room" && <RoomView floor={activeFloor} products={products} wishlist={wishlist} onBack={goHome} onOpen={openProduct} onWish={toggleWish} onSimulator={openSimulator} />}{view === "checkout" && <Checkout cart={cart} onBack={() => { setView("room"); setCartOpen(false); }} onComplete={() => checkoutMutation.mutate()} orderComplete={orderComplete} isSubmitting={checkoutMutation.isPending} />}</div>}
-      {selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAdd={() => addToCart(selectedProduct)} onSimulator={() => openSimulator(selectedProduct)} isWished={wishlist.includes(selectedProduct.id)} onWish={() => toggleWish(selectedProduct.id)} darkness={darkness} lumens={lumens} kelvin={kelvin} onDarkness={setDarkness} onLumens={setLumens} onKelvin={setKelvin} />}
+      {selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAdd={() => addToCart(selectedProduct)} isWished={wishlist.includes(selectedProduct.id)} onWish={() => toggleWish(selectedProduct.id)} />}
+      {simulatorOpen && <RoomSimulatorModal products={products.filter((product) => product.floor === 3)} product={simulatorProduct} onSelect={selectSimulatorProduct} onClose={() => setSimulatorOpen(false)} darkness={darkness} lumens={lumens} kelvin={kelvin} onDarkness={setDarkness} onLumens={setLumens} onKelvin={setKelvin} />}
       {searchOpen && <SearchPanel query={searchQuery} onQuery={setSearchQuery} results={searchResults} onOpen={openProduct} onClose={() => setSearchOpen(false)} />}
       {cartOpen && <Trolley cart={cart} coupon={coupon} onCoupon={setCoupon} discount={discount} onClose={() => setCartOpen(false)} onQuantity={changeQuantity} onCheckout={() => { setCartOpen(false); setView("checkout"); setOrderComplete(false); }} />}
     </div>

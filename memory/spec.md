@@ -1,3 +1,3 @@
 # VINKRI Virtual Studio
 
-This mirrors `memory/SPEC.md` for test handoff. It is a public, unauthenticated virtual studio demo using the supplied ZIP's 16 static SVG products. Core flow: minimal cinematic building + VINKRI + ENTER STUDIO → facade → four rooms → product detail + dark-room simulator → trolley → coupon `VINKRI10` → MOCKED checkout confirmation. Product images never animate. No external integrations or credentials.
+This mirrors `memory/SPEC.md` for test handoff. It is a public, unauthenticated virtual studio demo using the supplied ZIP's 16 static SVG products. Core flow: minimal cinematic building + VINKRI + ENTER STUDIO → facade → four rooms → product detail → trolley → coupon `VINKRI10` → MOCKED checkout confirmation. Light Lab alone has a dedicated room simulator for selecting its four objects and adjusting darkness, lumens, and colour temperature with live lux output. Product images never animate. No external integrations or credentials.
