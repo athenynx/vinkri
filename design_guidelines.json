@@ -1,0 +1,143 @@
+{
+  "project_name": "VINKRI Virtual Design Studio",
+  "archetype": "ARCHITECTURAL LUXURY & CINEMATIC RETRO-FUTURISM",
+  "emotional_tone": "High-end, architectural, mysterious, hyper-focused, cinematic, spatial, tactile",
+  "context_type": "Marketing Page & Immersive Architectural SaaS Application",
+  "typography": {
+    "heading_font": "Cormorant Garamond, Serif / Cabinet Grotesk",
+    "body_font": "Inter / IBM Plex Sans",
+    "mono_accent": "JetBrains Mono",
+    "hierarchy": {
+      "h1_hero": "text-4xl sm:text-5xl lg:text-6xl tracking-tight font-serif uppercase",
+      "h2_section": "text-2xl sm:text-3xl lg:text-4xl tracking-tight font-serif",
+      "h3_subsection": "text-xl sm:text-2xl font-medium",
+      "h4_card": "text-lg sm:text-xl font-medium",
+      "body_text": "text-sm sm:text-base leading-relaxed text-neutral-300",
+      "mono_label": "text-xs font-mono tracking-[0.2em] uppercase text-amber-400/80"
+    }
+  },
+  "colors": {
+    "theme_dark": {
+      "base": "#0B0C10",
+      "surface": "#12141C",
+      "surface_border": "#1F2430",
+      "text_primary": "#F3F4F6",
+      "text_secondary": "#9CA3AF",
+      "accent_amber": "#E6A15C",
+      "accent_cyan": "#38BDF8",
+      "glow_warm": "rgba(230, 161, 92, 0.25)",
+      "glow_cool": "rgba(56, 189, 248, 0.2)"
+    },
+    "theme_light": {
+      "base": "#F8F9FA",
+      "surface": "#FFFFFF",
+      "surface_border": "#E2E8F0",
+      "text_primary": "#0F172A",
+      "text_secondary": "#475569",
+      "accent_amber": "#D97706",
+      "accent_cyan": "#0284C7",
+      "glow_warm": "rgba(217, 119, 6, 0.15)",
+      "glow_cool": "rgba(2, 132, 199, 0.15)"
+    }
+  },
+  "layout_and_grids": {
+    "spacing_scale": "p-2, p-4, p-6, p-8, p-12, p-16, p-24, p-32",
+    "container_padding": "px-4 sm:px-8 lg:px-16",
+    "bento_grid": "grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-6 lg:gap-8",
+    "surface_strategy": "Glassmorphism with optical saturation (backdrop-blur-xl bg-black/60 border border-white/10) for floating headers, drawers, search and dark room simulator control panel."
+  },
+  "motion_architecture": {
+    "loading_sequence": {
+      "scene_1": "Black space with ambient particle system drifting at low velocity and faint radial gradient glow.",
+      "scene_2": "VINKRI building facade emerges with blur-to-clear opacity fade and 2.5D scale transition from 90% to 100%.",
+      "scene_3": "3D/2.5D building rotation (270°–360°) simulating an architectural model in a studio lighting cage.",
+      "scene_4": "Volumetric light sweep across window glass panes and stone textures highlighting facade geometry.",
+      "scene_5": "Typography reveal: VINKRI followed by VIRTUAL STUDIO with wide letter tracking.",
+      "scene_6": "ENTER STUDIO button with subtle breathing glow pulse. Click triggers camera push-through effect into studio interior."
+    },
+    "building_facade": {
+      "parallax_layers": "Foreground dust particles -> Building body -> Windows/Apertures -> Architectural labels -> Background skybox glow.",
+      "floor_hover_vfx": "Hovered floor glides forward (+12px Z transform), window apertures illuminate with warm/cool light, vertical light beam casts behind floor.",
+      "floor_click": "Selected floor brightens, non-selected floors dim to 20% opacity, camera zooms straight into selected floor portal."
+    },
+    "studio_floors": [
+      {
+        "floor_id": "01",
+        "name": "LIGHT LAB",
+        "vfx": "Warm and cool light gradients, interactive floating photons, animated architectural lamps, realtime reflections."
+      },
+      {
+        "floor_id": "02",
+        "name": "SACRED ROOM",
+        "vfx": "Candle-like ambient warm light, circular light halos, atmospheric haze, slow floating dust particles."
+      },
+      {
+        "floor_id": "03",
+        "name": "MEMORY ARCHIVE",
+        "vfx": "Floating paper/blueprint fragments, film grain overlay, slow horizontal drift, archived catalog tags."
+      },
+      {
+        "floor_id": "04",
+        "name": "OBJECT LIBRARY",
+        "vfx": "Precision CAD blueprint grid overlays, floating object silhouettes, architectural measurement lines, dimension callouts."
+      }
+    ],
+    "dark_room_simulator": {
+      "concept": "Interactive virtual dark room testing chamber where users adjust room darkness (0% to 100%) and product luminous intensity (lumens/kelvin).",
+      "features": [
+        "Room Darkness Slider (Daylight / Dusk / Midnight Vault)",
+        "Product Beam Brightness / Dimmer (100 lm to 3500 lm)",
+        "Color Temperature Control (2700K Warm Gold to 6500K Arctic Daylight)",
+        "Live Lux Foot-Candle Meter Display & Wall Surface Glow Projection",
+        "Before/After Split View & Shadow Angle Simulator"
+      ]
+    },
+    "product_card_vfx": {
+      "magnetic_cursor": "Cards subtly shift towards cursor position within 150px proximity.",
+      "hover_state": "Lift 3D tilt transform, expanded shadow layer, metadata slides in from bottom edge.",
+      "expansion_modal": "Shared element transition where product card expands smooth into central detail modal without full page reload."
+    },
+    "cart_fly_vfx": "On clicking 'ADD TO TROLLEY', product thumbnail shrinks into a glowing orb particle that curves through 3D space toward top-right trolley icon, triggering trolley scale bounce.",
+    "custom_cursor": {
+      "default": "Small 8px dot with trailing 24px ring.",
+      "interactive_states": "VIEW OBJECT on cards, ENTER FLOOR on building facade, DRAG on marquee conveyor, ADJUST on dark room sliders."
+    }
+  },
+  "image_urls": {
+    "pendant_lights": [
+      {
+        "id": "pendant-01",
+        "url": "https://images.unsplash.com/photo-1766802033683-77fc32c2b6a5?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "name": "Aura Sphere Cluster Pendant",
+        "category": "LIGHT LAB",
+        "lumens": 2400,
+        "price": "$1,280"
+      },
+      {
+        "id": "pendant-02",
+        "url": "https://images.unsplash.com/photo-1648536474453-2b9e03f0238c?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "name": "Ethereal Silk Canopy Light",
+        "category": "SACRED ROOM",
+        "lumens": 1800,
+        "price": "$1,650"
+      }
+    ],
+    "architectural_interiors": [
+      {
+        "id": "arch-01",
+        "url": "https://images.unsplash.com/photo-1673744341034-57b84d607599?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "description": "Dimly lit stone architectural corridor with embedded wall wash lighting"
+      },
+      {
+        "id": "arch-02",
+        "url": "https://images.unsplash.com/photo-1663811397219-c572550dffc5?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "description": "Minimalist dark interior living space with accent spotlighting"
+      }
+    ]
+  },
+  "general_guidelines": {
+    "data_testid_policy": "All buttons, sliders, links, inputs, floor selectors, modals, and trolley elements MUST include data-testid in kebab-case format (e.g. data-testid='enter-studio-button', data-testid='floor-card-01', data-testid='dark-room-dimmer-slider').",
+    "accessibility": "Full prefers-reduced-motion support via Framer Motion useReducedMotion hook to disable camera push-through and particles while preserving state transitions.",
+    "theme_transition": "Radial gradient wipe originating from light/dark theme toggle button expanding across viewport."
+  }
+}
